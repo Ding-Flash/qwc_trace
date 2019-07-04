@@ -1,0 +1,19 @@
+程序入口：
+    run_analysis.sh
+初始化：
+    删除上次分析遗留的log和中间文件，校准时钟（get_time_alignment_deviation.sh）
+开始采集数据：
+    1.系统数据（sample/samp_run.py）：sar，iostat，mpstat   
+    2.Byteman插桩数据（run_instrument.sh）
+执行工作负载：
+    调用hibnech中的负载或自行编写的wordcount程序
+收集log：
+    1.收集spark app数据（cp /usr/local/spark/tsee_log/app* ~/qwc_trace/log/app）
+    2.收集系统数据（get_trace_log.sh）
+    3.收集Byteman插桩数据（sample/get_logs.sh）
+分析：
+    1.解析原始log并输出out_log（log_exe.py）
+    2.读取文件并提取特征，训练决策树（engine.py->decision_tree.py）
+    3.解码决策树及右支分析（decode_dot.py）
+    4.straggler主因分析（do_straggler.py）
+    5.结果写入文件（merge.py）

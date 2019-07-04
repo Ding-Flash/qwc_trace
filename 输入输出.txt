@@ -1,0 +1,94 @@
+输入：
+    1.spark log（spark/tsee_log/app*）
+    2.系统log（iostat_log_slave1 mpstat_log_slave1 sar_log_slave1）
+    3.Byteman插桩数据（task_tracelog_slave1 tracelog_slave1）
+数据格式：
+    1.原始log
+
+        iostat_log:
+            Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
+            vda               0.00     0.67    0.58   84.02     8.29   721.78    17.26     0.03    0.28   11.54    0.21   0.78   6.56
+
+        mpstat_log:
+            16时55分37秒  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle
+            16时55分38秒  all    1.26    0.00    1.01    0.00    0.00    0.00    0.00    0.00    0.00   97.74
+
+        sar_log:
+            16时55分40秒     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil
+            16时55分41秒 vetha14d598      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+        
+        task_tracelog:
+            BR: Starting a task id: 48 time: 1520672180604
+            BR: Ending a task id: 48 time: 1520672181478
+        
+        tracelog:
+            BR: actural rdd computing thread id: 49 time: 1520672158758 class: MapPartitionsRDD[4] at 
+            BR: actural rdd computing thread id: 48 time: 1520672158758 class: MapPartitionsRDD[4] at 
+
+        app(json格式，具体内容与Event属性有关):
+            {"Event":"SparkListenerBlockManagerAdded","Block Manager ID":{"Executor ID":"3","Host":"10.254.36.221","Port":51135},"Maximum Memory":1529452953,"Timestamp":1520672156318,"Maximum Onheap Memory":1529452953,"Maximum Offheap Memory":0}
+    2.out_log
+
+        iostat_out_log(格式：time_count rrgm wrgm rs ws rkb wkb avgrq avgqu await rawait wawait svctm util):
+            15 0.00 0.00 118.00 0.00 568.00 0.00 9.63 1.78 15.05 15.05 0.00 1.53 18.00
+        
+        mpstat_out_log(格式：time_stp_all user_all nice_all sys_all iowait_all irq_all soft_all steal_all guest_all gnice_all idle_all):
+            14 41.19 0.00 4.92 0.00 0.00 0.00 0.00 0.00 0.00 53.89
+
+        sar_out_log(格式：time_stp_all rxkb_all txkb_all ifutil_all):
+            23 15025.80 2917.84 0.00
+    3.决策树features
+        shuffle_read
+        shuffle_records
+        bytes_per_record
+        remote_fetch
+        shuffle_write_bytes
+        stage_id
+        read_from_hdfs
+        bytes_read
+        records_read
+        shuffle_write
+        remote_fetch_rate
+        fetch_wait_time
+        data_read_method
+        input_bytes/result_bytes
+        shuffle_write_records
+        straggler
+        node_id
+        task_type
+        task_duration
+        shuffle_read_bytes
+        write_bytes_per_record
+        write_bytes/read_bytes
+        deserialize
+        executor_run_ime
+        JVM_time
+        serialize
+        memory_bytes_spilled
+        disk_bytes_spilled
+        locality
+输出：
+    decision_tree.py:
+        1.atree.dot(决策树)
+        2.dataset.dat()
+        3.decision_tree.pdf(可视化决策树)
+    decode_dot.py:
+        1.straggler_stack(慢任务栈)
+    do_straggler.py:
+        1.task_data()
+    merge.py:
+        1.op_data()
+        格式：
+            task_num
+            operator_length
+            stage_num
+            stage_start_op_list
+            hot_spot_op_list
+            hot_spot_op_num
+            straggler_op_num
+            straggler_op_location_list
+            op_list
+
+        2.Trace_time_and_op_list_(kind_list time_list)
+        3.Trace_time_list_(与Trace_time_and_op_list_内容一致，只是除去了kind_list)
+        

@@ -1,0 +1,9 @@
+sample/clean_sample_log.py：用户名，主机名，节点数
+analysis/engine.py: slave的ip地址-----------------------------------------------
+sample/get_logs.py：用户名，主机名，节点数
+
+log_exe.py:主机名，节点数
+smaple_run.py:用户名，主机名，节点数
+merge.py:节点数
+get_time_alignment_deviation.sh：ip，主机名，节点数，用户名
+instru_run.py:节点数，主机名，用户名
