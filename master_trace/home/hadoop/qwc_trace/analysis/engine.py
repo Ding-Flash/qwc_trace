@@ -79,7 +79,7 @@ def catch_exception(expression, default=0):
 
 
 def load_dict():
-    filename=os.path.pardir+'/log/app'
+    filename=os.path.pardir+'/app'
     start_time_stamp, tasks, stages = feed(filename)
     return start_time_stamp, tasks, stages
 

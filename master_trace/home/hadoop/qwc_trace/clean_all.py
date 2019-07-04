@@ -15,7 +15,7 @@ os.system("cd sample")
 os.system("python ./clean_sample_log.py")
 os.system("cd ..")
 
-os.system("rm log/app*")
+os.system("rm app*")
 
 os.system("rm $SPARK_HOME/tsee_log/app*")
 

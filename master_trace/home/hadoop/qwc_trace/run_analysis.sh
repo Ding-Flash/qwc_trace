@@ -75,7 +75,7 @@ cd ..
 
 #exit
 
-cp $SPARK_HOME/tsee_log/app* log/app
+cp $SPARK_HOME/tsee_log/app* app
 
 python get_trace_log.py
 

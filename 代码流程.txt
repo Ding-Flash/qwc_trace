@@ -8,7 +8,7 @@
 执行工作负载：
     调用hibnech中的负载或自行编写的wordcount程序
 收集log：
-    1.收集spark app数据（cp /usr/local/spark/tsee_log/app* ~/qwc_trace/log/app）
+    1.收集spark app数据（cp /usr/local/spark/tsee_log/app* ~/qwc_trace/app）
     2.收集系统数据（get_trace_log.sh）
     3.收集Byteman插桩数据（sample/get_logs.sh）
 分析：
